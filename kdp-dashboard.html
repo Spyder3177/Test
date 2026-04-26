@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>KDP Dashboard</title>
+<style>
+/* ─── APPLE SYSTEM FONTS ─────────────────────────────────── */
+:root {
+  --font: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+
+  /* iOS Light */
+  --bg:            #F2F2F7;
+  --bg2:           #FFFFFF;
+  --bg3:           #F2F2F7;
+  --grouped-bg:    #F2F2F7;
+  --card:          #FFFFFF;
+  --separator:     rgba(60,60,67,0.12);
+  --separator2:    rgba(60,60,67,0.06);
+
+  /* Labels */
+  --label:         #000000;
+  --label2:        rgba(60,60,67,0.6);
+  --label3:        rgba(60,60,67,0.3);
+  --label4:        rgba(60,60,67,0.18);
+
+  /* iOS System Colors */
+  --blue:          #007AFF;
+  --blue-bg:       rgba(0,122,255,0.10);
+  --green:         #34C759;
+  --green-bg:      rgba(52,199,89,0.10);
+  --red:           #FF3B30;
+  --red-bg:        rgba(255,59,48,0.10);
+  --orange:        #FF9500;
+  --orange-bg:     rgba(255,149,0,0.10);
+  --teal:          #5AC8FA;
+  --indigo:        #5856D6;
+
+  /* Fill */
+  --fill:          rgba(120,120,128,0.12);
+  --fill2:         rgba(120,120,128,0.08);
+  --fill3:         rgba(120,120,128,0.05);
+
+  /* Nav bg */
+  --nav-frosted:   rgba(242,242,247,0.85);
+
+  /* Geometry */
+  --r-sm:          8px;
+  --r-md:          12px;
+  --r-lg:          16px;
+  --r-xl:          20px;
+
+  /* Layout */
+  --nav-h:         83px;
+  --header-h:      44px;
+  --safe-top:      env(safe-area-inset-top, 0px);
+  --safe-bottom:   env(safe-area-inset-bottom, 0px);
+  --px:            16px;
+}
+
+/* ─── DARK MODE — system ─────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg:           #000000;
+    --bg2:          #1C1C1E;
+    --bg3:          #2C2C2E;
+    --grouped-bg:   #1C1C1E;
+    --card:         #1C1C1E;
+    --separator:    rgba(84,84,88,0.65);
+    --separator2:   rgba(84,84,88,0.36);
+    --label:        #FFFFFF;
+    --label2:       rgba(235,235,245,0.6);
+    --label3:       rgba(235,235,245,0.3);
+    --label4:       rgba(235,235,245,0.18);
+    --fill:         rgba(120,120,128,0.36);
+    --fill2:        rgba(120,120,128,0.24);
+    --fill3:        rgba(120,120,128,0.18);
+    --blue-bg:      rgba(0,122,255,0.20);
+    --green-bg:     rgba(52,199,89,0.20);
+    --red-bg:       rgba(255,59,48,0.20);
+    --orange-bg:    rgba(255,149,0,0.20);
+    --nav-frosted:  rgba(28,28,30,0.85);
+  }
+}
+
+/* ─── DARK MODE — forced via [data-theme="dark"] ─────────── */
+[data-theme="dark"] {
+  --bg:           #000000;
+  --bg2:          #1C1C1E;
+  --bg3:          #2C2C2E;
+  --grouped-bg:   #1C1C1E;
+  --card:         #1C1C1E;
+  --separator:    rgba(84,84,88,0.65);
+  --separator2:   rgba(84,84,88,0.36);
+  --label:        #FFFFFF;
+  --label2:       rgba(235,235,245,0.6);
+  --label3:       rgba(235,235,245,0.3);
+  --label4:       rgba(235,235,245,0.18);
+  --fill:         rgba(120,120,128,0.36);
+  --fill2:        rgba(120,120,128,0.24);
+  --fill3:        rgba(120,120,128,0.18);
+  --blue-bg:      rgba(0,122,255,0.20);
+  --green-bg:     rgba(52,199,89,0.20);
+  --red-bg:       rgba(255,59,48,0.20);
+  --orange-bg:    rgba(255,149,0,0.20);
+  --nav-frosted:  rgba(28,28,30,0.85);
+}
+
+/* ─── LIGHT MODE — forced via [data-theme="light"] ───────── */
+[data-theme="light"] {
+  --bg:            #F2F2F7;
+  --bg2:           #FFFFFF;
+  --bg3:           #F2F2F7;
+  --grouped-bg:    #F2F2F7;
+  --card:          #FFFFFF;
+  --separator:     rgba(60,60,67,0.12);
+  --separator2:    rgba(60,60,67,0.06);
+  --label:         #000000;
+  --label2:        rgba(60,60,67,0.6);
+  --label3:        rgba(60,60,67,0.3);
+  --label4:        rgba(60,60,67,0.18);
+  --fill:          rgba(120,120,128,0.12);
+  --fill2:         rgba(120,120,128,0.08);
+  --fill3:         rgba(120,120,128,0.05);
+  --blue-bg:       rgba(0,122,255,0.10);
+  --green-bg:      rgba(52,199,89,0.10);
+  --red-bg:        rgba(255,59,48,0.10);
+  --orange-bg:     rgba(255,149,0,0.10);
+  --nav-frosted:   rgba(242,242,247,0.85);
+}
+
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html { height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--grouped-bg);
+  color: var(--label);
+  min-height: 100%;
+  padding-top: calc(var(--header-h) + var(--safe-top));
+  padding-bottom: calc(var(--nav-h) + var(--safe-bottom));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ─── NAVIGATION BAR ─────────────────────────────────────── */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: calc(var(--header-h) + var(--safe-top));
+  padding-top: var(--safe-top);
+  background: var(--nav-frosted);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--separator);
+  display: flex;
+  align-items: flex-end;
+}
+.nav-bar-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--header-h);
+}
+.nav-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.nav-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--label);
+  line-height: 1.2;
+}
+.nav-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--label2);
+  letter-spacing: 0;
+  margin-top: 1px;
+}
+
+/* ─── THEME TOGGLE BUTTON ────────────────────────────────── */
+.theme-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--fill);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.theme-btn:active { transform: scale(0.93); }
+.theme-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  color: var(--label2);
+  fill: currentColor;
+  transition: color 0.2s;
+}
+
+/* ─── TAB BAR ────────────────────────────────────────────── */
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  height: calc(49px + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: var(--nav-frosted);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 0.5px solid var(--separator);
+  display: flex;
+  align-items: stretch;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--label3);
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 4px 0 0;
+  transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab-item.active { color: var(--blue); }
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tab-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+/* ─── MAIN ───────────────────────────────────────────────── */
+main { padding: 0 0 8px; }
+
+/* ─── SECTION ────────────────────────────────────────────── */
+.section { display: none; }
+.section.active {
+  display: block;
+  animation: fadeSlide 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── LARGE TITLE ────────────────────────────────────────── */
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: var(--label);
+  padding: 16px var(--px) 4px;
+  line-height: 1.1;
+}
+
+/* ─── GROUPED LIST SECTIONS ──────────────────────────────── */
+.list-section {
+  margin: 0 0 8px;
+  padding: 0 var(--px);
+}
+.list-section-header {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--label2);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 4px 6px;
+}
+.list-group {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.list-row {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 11px 16px;
+  gap: 12px;
+  background: var(--card);
+  position: relative;
+}
+.list-row + .list-row::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 16px; right: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+.list-row-icon {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.list-row-icon svg {
+  width: 17px; height: 17px;
+  fill: currentColor;
+  display: block;
+}
+.row-label {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.41px;
+  color: var(--label);
+  white-space: nowrap;
+}
+.row-value {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--label2);
+  letter-spacing: -0.41px;
+  text-align: right;
+}
+.row-value.accent { color: var(--blue); }
+.row-value.green  { color: var(--green); }
+.row-value.red    { color: var(--red); }
+
+/* SELECT / INPUT inline dans row */
+.list-row select,
+.list-row input[type="number"],
+.list-row input[type="text"] {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.41px;
+  color: var(--blue);
+  text-align: right;
+  max-width: 200px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .list-row select,
+[data-theme="dark"] .list-row input[type="number"],
+[data-theme="dark"] .list-row input[type="text"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .list-row select,
+  :root:not([data-theme]) .list-row input[type="number"],
+  :root:not([data-theme]) .list-row input[type="text"] { color-scheme: dark; }
+}
+.list-row input[type="number"] { max-width: 100px; }
+
+/* ─── SLIDER ROW ─────────────────────────────────────────── */
+.slider-row {
+  padding: 12px 16px 14px;
+  background: var(--card);
+  position: relative;
+}
+.slider-row + .list-row::before,
+.list-row + .slider-row::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 16px; right: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.slider-label {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.41px;
+  color: var(--label);
+}
+.slider-val {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.41px;
+  color: var(--blue);
+}
+input[type="range"] {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--blue);
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* ─── HERO CARD ──────────────────────────────────────────── */
+.hero-card {
+  margin: 8px var(--px) 0;
+  background: var(--blue);
+  border-radius: var(--r-xl);
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: 40px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+.hero-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.hero-amount {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.hero-sub {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: -0.24px;
+}
+
+/* ─── STATS CARDS ────────────────────────────────────────── */
+.stats-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px var(--px) 0;
+}
+.stat-card {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stat-card-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--label2);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.stat-card-val {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--label);
+  line-height: 1;
+}
+.stat-card-val.blue   { color: var(--blue); }
+.stat-card-val.green  { color: var(--green); }
+
+/* ─── INFO BANNER ────────────────────────────────────────── */
+.info-banner {
+  margin: 8px var(--px) 0;
+  background: var(--blue-bg);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.08px;
+  color: var(--blue);
+  line-height: 1.55;
+}
+.info-banner.green {
+  background: var(--green-bg);
+  color: #1a8a3a;
+}
+[data-theme="dark"] .info-banner.green,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .info-banner.green { color: var(--green); }
+}
+[data-theme="dark"] .info-banner.green { color: var(--green); }
+.info-banner.orange {
+  background: var(--orange-bg);
+  color: #cc7700;
+}
+[data-theme="dark"] .info-banner.orange { color: var(--orange); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .info-banner.orange { color: var(--orange); }
+}
+
+/* ─── FISCAL COMPARISON CARDS ────────────────────────────── */
+.fiscal-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 var(--px);
+}
+.fiscal-card {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.fiscal-card-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid var(--separator);
+}
+.fiscal-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.24px;
+  color: var(--label);
+}
+.pill {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.01em;
+}
+.pill-green { background: var(--green-bg); color: #1a8a3a; }
+[data-theme="dark"] .pill-green { color: #30d158; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .pill-green { color: #30d158; }
+}
+.fiscal-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px;
+  gap: 8px;
+  border-bottom: 0.5px solid var(--separator2);
+  font-size: 15px;
+  letter-spacing: -0.24px;
+}
+.fiscal-line:last-child { border: none; }
+.fiscal-line span { color: var(--label2); }
+.fiscal-line strong {
+  font-weight: 600;
+  color: var(--label);
+  white-space: nowrap;
+}
+.fiscal-line.net span { color: var(--green); }
+.fiscal-line.net strong { color: var(--green); font-size: 17px; }
+
+/* ─── BOOK CARDS ─────────────────────────────────────────── */
+.book-card {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.book-card-body { padding: 14px 16px; }
+.book-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.41px;
+  color: var(--label);
+  margin-bottom: 2px;
+}
+.book-card-serie {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--label2);
+  margin-bottom: 10px;
+}
+.book-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  background: var(--fill);
+  color: var(--label2);
+}
+.tag.blue   { background: var(--blue-bg);   color: var(--blue); }
+.tag.green  { background: var(--green-bg);  color: #1a8a3a; }
+.tag.orange { background: var(--orange-bg); color: #cc7700; }
+.tag.red    { background: var(--red-bg);    color: var(--red); }
+[data-theme="dark"] .tag.green  { color: var(--green); }
+[data-theme="dark"] .tag.orange { color: var(--orange); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .tag.green  { color: var(--green); }
+  :root:not([data-theme]) .tag.orange { color: var(--orange); }
+}
+.book-card-footer {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 14px;
+}
+.book-card-footer .btn { flex: 1; }
+
+/* ─── BUTTONS ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--r-md);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.24px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.12s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { opacity: 0.7; transform: scale(0.97); }
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-fill { background: var(--fill); color: var(--label); }
+.btn-red  { background: var(--red-bg); color: var(--red); }
+.btn-full { width: 100%; border-radius: var(--r-lg); height: 50px; font-size: 17px; }
+.btn-sm   { height: 34px; font-size: 14px; border-radius: var(--r-sm); padding: 0 14px; }
+
+/* ─── EMPTY STATE ────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 8px;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+  opacity: 0.4;
+}
+.empty-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.45px;
+  color: var(--label);
+}
+.empty-sub {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--label2);
+  text-align: center;
+  letter-spacing: -0.24px;
+}
+
+/* ─── MODAL (sheet) ──────────────────────────────────────── */
+.sheet-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 400;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sheet-overlay.open { display: flex; }
+.sheet {
+  background: var(--bg2);
+  border-radius: 12px 12px 0 0;
+  width: 100%;
+  max-width: 600px;
+  max-height: 94vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0 calc(20px + var(--safe-bottom));
+  animation: sheetUp 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+[data-theme="dark"] .sheet { background: var(--bg3); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .sheet { background: var(--bg3); }
+}
+.sheet-handle-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 0;
+}
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--label4);
+  border-radius: 2px;
+}
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px var(--px) 6px;
+}
+.sheet-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.41px;
+  color: var(--label);
+}
+.sheet-actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px var(--px) 0;
+}
+.sheet-actions .btn { flex: 1; }
+.sheet .list-section { margin-top: 8px; }
+
+/* ─── FOOTER SPACER ──────────────────────────────────────── */
+.section-spacer { height: 16px; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV BAR ──────────────────────────────────────────── -->
+<div class="nav-bar">
+  <div class="nav-bar-inner">
+    <div class="nav-left">
+      <div class="nav-title">JT Éditions</div>
+      <div class="nav-sub">Dashboard KDP</div>
+    </div>
+    <!-- Bouton jour/nuit Apple-style -->
+    <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le thème">
+      <!-- Icône soleil (mode clair actif) -->
+      <svg id="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM12 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1zm0 17a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zM4.22 4.22a1 1 0 0 1 1.42 0l.7.7a1 1 0 1 1-1.42 1.42l-.7-.7a1 1 0 0 1 0-1.42zm13.44 13.44a1 1 0 0 1 1.42 0l.7.7a1 1 0 0 1-1.42 1.42l-.7-.7a1 1 0 0 1 0-1.42zM2 12a1 1 0 0 1 1-1h1a1 1 0 0 1 0 2H3a1 1 0 0 1-1-1zm17 0a1 1 0 0 1 1-1h1a1 1 0 0 1 0 2h-1a1 1 0 0 1-1-1zM4.22 19.78a1 1 0 0 1 0-1.42l.7-.7a1 1 0 1 1 1.42 1.42l-.7.7a1 1 0 0 1-1.42 0zm13.44-13.44a1 1 0 0 1 0-1.42l.7-.7a1 1 0 0 1 1.42 1.42l-.7.7a1 1 0 0 1-1.42 0z"/>
+      </svg>
+      <!-- Icône lune (mode sombre actif) — cachée par défaut -->
+      <svg id="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════ ROYALTIES ══════════════════ -->
+<div id="royalties" class="section active">
+
+  <div class="large-title">Royalties</div>
+
+  <div style="padding: 0 var(--px); margin-top: 12px;">
+    <div class="hero-card">
+      <div class="hero-label">Royaltie nette / exemplaire</div>
+      <div class="hero-amount" id="r_per_unit">—</div>
+      <div class="hero-sub" id="r_monthly">Configurez les paramètres</div>
+    </div>
+  </div>
+
+  <div class="stats-cards" id="r_stats_cards">
+    <div class="stat-card">
+      <div class="stat-card-label">Coût impression</div>
+      <div class="stat-card-val" id="r_cost_disp2">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Taux royalties</div>
+      <div class="stat-card-val blue" id="r_rate_disp2">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Royalties / mois</div>
+      <div class="stat-card-val green" id="r_monthly_net2">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Royalties / an</div>
+      <div class="stat-card-val green" id="r_annual2">—</div>
+    </div>
+  </div>
+
+  <div class="list-section" style="margin-top: 16px;">
+    <div class="list-section-header">Format &amp; marché</div>
+    <div class="list-group">
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#007AFF20;color:#007AFF">
+          <svg viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm2 3h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 4h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 4h5a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/></svg>
+        </div>
+        <span class="row-label">Format</span>
+        <select id="r_format" onchange="onFormatChange()">
+          <option value="paperback">Paperback</option>
+          <option value="hardcover">Hardcover</option>
+          <option value="ebook">eBook 70% (Select)</option>
+          <option value="ebook_35">eBook 35%</option>
+        </select>
+      </div>
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#34C75920;color:#34C759">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <span class="row-label">Marché</span>
+        <select id="r_market" onchange="calcRoyalties()">
+          <option value="fr">EUR — .fr/.de/.es/.it</option>
+          <option value="us">USD — .com</option>
+          <option value="uk">GBP — .co.uk</option>
+          <option value="ca">CAD — .ca</option>
+          <option value="au">AUD — .com.au</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-section-header">Prix</div>
+    <div class="list-group">
+      <div class="slider-row">
+        <div class="slider-label-row">
+          <span class="slider-label">Prix de vente</span>
+          <span class="slider-val" id="r_price_display">12,99</span>
+        </div>
+        <input type="range" id="r_price_range" min="1.99" max="49.99" step="0.50" value="12.99" oninput="syncPrice('range')">
+      </div>
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#FF950020;color:#FF9500">
+          <svg viewBox="0 0 24 24"><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <span class="row-label">Valeur exacte</span>
+        <input type="number" id="r_price" value="12.99" step="0.50" min="1.99" max="49.99" oninput="syncPrice('input')" inputmode="decimal">
+      </div>
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#5AC8FA20;color:#5AC8FA">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <span class="row-label">Ventes / mois</span>
+        <input type="number" id="r_sales" value="20" min="1" oninput="calcRoyalties()" inputmode="numeric">
+      </div>
+    </div>
+  </div>
+
+  <div id="printing_params">
+    <div class="list-section">
+      <div class="list-section-header">Impression</div>
+      <div class="list-group">
+        <div class="list-row">
+          <div class="list-row-icon" style="background:#5856D620;color:#5856D6">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="6" y="14" width="12" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <span class="row-label">Encre</span>
+          <select id="r_ink" onchange="onInkChange()">
+            <option value="black">Noir &amp; Blanc</option>
+            <option value="std_color">Couleur standard</option>
+            <option value="prem_color">Couleur premium</option>
+          </select>
+        </div>
+        <div class="list-row">
+          <div class="list-row-icon" style="background:#FF3B3020;color:#FF3B30">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="row-label">Trim</span>
+          <select id="r_trim" onchange="calcRoyalties()">
+            <option value="regular">Standard</option>
+            <option value="large">Grand format</option>
+          </select>
+        </div>
+        <div class="list-row">
+          <div class="list-row-icon" style="background:#34C75920;color:#34C759">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="row-label">Pages</span>
+          <input type="number" id="r_pages" value="150" min="24" max="828" step="2" oninput="calcRoyalties()" inputmode="numeric">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-group">
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#FF3B3015;color:#FF3B30">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <span class="row-label">Prix minimum KDP</span>
+        <span class="row-value red" id="r_min_price">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-banner" id="r_info_note" style="margin-bottom:0"></div>
+  <div class="section-spacer"></div>
+</div>
+
+<!-- ══════════════════ FISCAL ══════════════════ -->
+<div id="fiscal" class="section">
+
+  <div class="large-title">Fiscal BNC</div>
+
+  <div class="stats-cards" style="margin-top:12px">
+    <div class="stat-card">
+      <div class="stat-card-label">CA annuel</div>
+      <div class="stat-card-val blue" id="f_ca_disp">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">URSSAF</div>
+      <div class="stat-card-val" style="color:var(--red)" id="f_urssaf">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Abattement 34%</div>
+      <div class="stat-card-val" id="f_abat">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Bénéfice imposable</div>
+      <div class="stat-card-val" id="f_bnc_imposable">—</div>
+    </div>
+  </div>
+
+  <div class="list-section" style="margin-top:16px">
+    <div class="list-section-header">Données personnelles</div>
+    <div class="list-group">
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#34C75920;color:#34C759">
+          <svg viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm2 3h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 4h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 4h5a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/></svg>
+        </div>
+        <span class="row-label">CA KDP (€/an)</span>
+        <input type="number" id="f_ca" value="5000" step="100" oninput="calcFiscal()" inputmode="numeric">
+      </div>
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#007AFF20;color:#007AFF">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <span class="row-label">Salaire CDI net (€)</span>
+        <input type="number" id="f_salaire" value="28000" step="100" oninput="calcFiscal()" inputmode="numeric">
+      </div>
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#FF950020;color:#FF9500">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <span class="row-label">Parts fiscales</span>
+        <select id="f_parts" onchange="calcFiscal()">
+          <option value="1">1 part</option>
+          <option value="1.5">1,5 parts</option>
+          <option value="2" selected>2 parts</option>
+          <option value="2.5">2,5 parts</option>
+          <option value="3">3 parts</option>
+          <option value="3.5">3,5 parts</option>
+          <option value="4">4 parts</option>
+        </select>
+      </div>
+      <div class="list-row">
+        <div class="list-row-icon" style="background:#5856D620;color:#5856D6">
+          <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V9a4 4 0 0 1 4-4h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="7 23 3 19 7 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 13v2a4 4 0 0 1-4 4H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <span class="row-label">VL actif ?</span>
+        <select id="f_vl_active" onchange="calcFiscal()">
+          <option value="no">Non</option>
+          <option value="yes">Oui</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="list-section">
+    <div class="list-section-header">Comparaison des régimes</div>
+  </div>
+  <div class="fiscal-cards" id="fiscal_compare"></div>
+
+  <div class="info-banner" id="fiscal_recommendation" style="margin: 8px 16px 0"></div>
+  <div class="section-spacer"></div>
+</div>
+
+<!-- ══════════════════ CATALOGUE ══════════════════ -->
+<div id="catalogue" class="section">
+
+  <div class="large-title">Catalogue</div>
+
+  <div class="stats-cards" style="margin-top: 12px;">
+    <div class="stat-card">
+      <div class="stat-card-label">Titres</div>
+      <div class="stat-card-val" id="cat_total">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Publiés</div>
+      <div class="stat-card-val green" id="cat_live">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Royalties / mois</div>
+      <div class="stat-card-val blue" id="cat_royalties">0 €</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">CA / an</div>
+      <div class="stat-card-val blue" id="cat_annual">0 €</div>
+    </div>
+  </div>
+
+  <div style="padding: 12px var(--px) 0;">
+    <button class="btn btn-blue btn-full" onclick="openModal()">+ Ajouter un titre</button>
+  </div>
+
+  <div style="padding: 12px var(--px) 0;" id="book_list"></div>
+
+  <div class="empty-state" id="empty_state" style="display:none">
+    <div class="empty-icon">📚</div>
+    <div class="empty-title">Aucun titre</div>
+    <div class="empty-sub">Ajoutez votre premier livre pour commencer le suivi de votre catalogue.</div>
+  </div>
+
+  <div class="section-spacer"></div>
+</div>
+
+</main>
+
+<!-- ── TAB BAR ───────────────────────────────────────────── -->
+<nav class="tab-bar">
+  <button class="tab-item active" onclick="showSection('royalties', this)">
+    <span class="tab-icon">
+      <!-- Icône royalties : euro / pièce -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M14.5 8.5a4 4 0 1 0 0 7M8 11h5M8 13h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Royalties
+  </button>
+  <button class="tab-item" onclick="showSection('fiscal', this)">
+    <span class="tab-icon">
+      <!-- Icône fiscal : document avec lignes -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <polyline points="14 2 14 8 20 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="8" y1="17" x2="13" y2="17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Fiscal
+  </button>
+  <button class="tab-item" onclick="showSection('catalogue', this)">
+    <span class="tab-icon">
+      <!-- Icône catalogue : livres empilés -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    Catalogue
+  </button>
+</nav>
+
+<!-- ── SHEET MODAL ────────────────────────────────────────── -->
+<div class="sheet-overlay" id="book_modal">
+  <div class="sheet">
+    <div class="sheet-handle-wrap"><div class="sheet-handle"></div></div>
+    <div class="sheet-header">
+      <div class="sheet-title" id="modal_title">Nouveau titre</div>
+    </div>
+
+    <div class="list-section">
+      <div class="list-section-header">Informations</div>
+      <div class="list-group">
+        <div class="list-row">
+          <span class="row-label">Titre</span>
+          <input type="text" id="m_title" placeholder="Titre du livre"
+            style="text-align:right;max-width:200px;font-size:17px;background:none;border:none;outline:none;font-family:var(--font);color:var(--blue);letter-spacing:-0.41px">
+        </div>
+        <div class="list-row">
+          <span class="row-label">Série / Niche</span>
+          <input type="text" id="m_serie" placeholder="Seniors / Mémoires"
+            style="text-align:right;max-width:180px;font-size:17px;background:none;border:none;outline:none;font-family:var(--font);color:var(--blue);letter-spacing:-0.41px">
+        </div>
+      </div>
+    </div>
+
+    <div class="list-section">
+      <div class="list-section-header">Détails</div>
+      <div class="list-group">
+        <div class="list-row">
+          <span class="row-label">Format</span>
+          <select id="m_format">
+            <option value="Paperback">Paperback</option>
+            <option value="eBook">eBook</option>
+            <option value="Les deux">Les deux</option>
+          </select>
+        </div>
+        <div class="list-row">
+          <span class="row-label">Statut</span>
+          <select id="m_status">
+            <option value="En cours">En cours</option>
+            <option value="Proof commandé">Proof commandé</option>
+            <option value="Publié">Publié</option>
+            <option value="Suspendu">Suspendu</option>
+          </select>
+        </div>
+        <div class="list-row">
+          <span class="row-label">ASIN Amazon</span>
+          <input type="text" id="m_asin" placeholder="B0XXXXXXXXX"
+            style="text-align:right;max-width:150px;font-size:17px;background:none;border:none;outline:none;font-family:var(--font);color:var(--blue);letter-spacing:-0.41px">
+        </div>
+      </div>
+    </div>
+
+    <div class="list-section">
+      <div class="list-section-header">Économique</div>
+      <div class="list-group">
+        <div class="list-row">
+          <span class="row-label">Prix public (€)</span>
+          <input type="number" id="m_price" value="12.99" step="0.50" min="0" inputmode="decimal">
+        </div>
+        <div class="list-row">
+          <span class="row-label">Royaltie / u (€)</span>
+          <input type="number" id="m_royalty" value="3.50" step="0.10" min="0" inputmode="decimal">
+        </div>
+        <div class="list-row">
+          <span class="row-label">Ventes / mois</span>
+          <input type="number" id="m_sales" value="10" min="0" inputmode="numeric">
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-actions">
+      <button class="btn btn-fill" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-blue" onclick="saveBook()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────
+   THEME TOGGLE — jour / nuit
+   Priorité : data-theme forcé > système OS
+───────────────────────────────────────────────────────── */
+(function() {
+  // Restaurer le thème sauvegardé (avec fallback si localStorage bloqué)
+  var saved = null;
+  try { saved = localStorage.getItem('jte_theme'); } catch(e) {}
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+  updateThemeIcon();
+})();
+
+function toggleTheme() {
+  var html  = document.documentElement;
+  var cur   = html.getAttribute('data-theme');
+  // Détecter le thème OS si aucun data-theme forcé
+  var isDark = cur === 'dark' || (!cur && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  var next  = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  try { localStorage.setItem('jte_theme', next); } catch(e) {}
+  updateThemeIcon();
+}
+
+function updateThemeIcon() {
+  var html   = document.documentElement;
+  var cur    = html.getAttribute('data-theme');
+  var isDark = cur === 'dark' || (!cur && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  var sun    = document.getElementById('icon-sun');
+  var moon   = document.getElementById('icon-moon');
+  if (!sun || !moon) return;
+  if (isDark) {
+    sun.style.display  = 'none';
+    moon.style.display = 'block';
+  } else {
+    sun.style.display  = 'block';
+    moon.style.display = 'none';
+  }
+}
+
+// Mettre à jour l'icône si le système change (sans forçage manuel)
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+  if (!document.documentElement.getAttribute('data-theme')) updateThemeIcon();
+});
+
+/* ─────────────────────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────────────────────── */
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.tab-item').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'royalties') calcRoyalties();
+  if (id === 'fiscal')    calcFiscal();
+  if (id === 'catalogue') renderCatalogue();
+}
+
+/* ─────────────────────────────────────────────────────────
+   ROYALTIES — tarifs KDP officiels (avril 2025)
+───────────────────────────────────────────────────────── */
+var KDP = {
+  paperback_black: {
+    fr:{ff:2.05,fl:.75, pR:.012, pL:.016,fm:108},
+    us:{ff:2.30,fl:1.00,pR:.012, pL:.017,fm:108},
+    uk:{ff:1.93,fl:.85, pR:.010, pL:.012,fm:108},
+    ca:{ff:2.99,fl:1.26,pR:.016, pL:.021,fm:108},
+    au:{ff:4.74,fl:2.42,pR:.022, pL:.027,fm:108},
+  },
+  paperback_std_color: {
+    fr:{ff:null,fl:.75, pR:.024, pL:.035, fm:null},
+    us:{ff:null,fl:1.00,pR:.0255,pL:.0402,fm:null},
+    uk:{ff:null,fl:.85, pR:.020, pL:.027, fm:null},
+    ca:{ff:null,fl:1.26,pR:.037, pL:.052, fm:null},
+    au:null,
+  },
+  paperback_prem_color: {
+    fr:{ff:2.85,fl:.75, pR:.0525,pL:.0715,fm:40},
+    us:{ff:3.60,fl:1.00,pR:.065, pL:.080, fm:40},
+    uk:{ff:2.59,fl:.85, pR:.0435,pL:.0598,fm:40},
+    ca:{ff:4.66,fl:1.26,pR:.085, pL:.10,  fm:40},
+    au:{ff:5.82,fl:2.42,pR:.085, pL:.100, fm:40},
+  },
+  hardcover_black: {
+    fr:{ff:null,fl:5.27,pR:.012, pL:.016,fm:null},
+    us:{ff:null,fl:5.65,pR:.012, pL:.017,fm:null},
+    uk:{ff:null,fl:4.49,pR:.010, pL:.012,fm:null},
+    ca:{ff:null,fl:6.77,pR:.016, pL:.021,fm:null},
+    au:{ff:null,fl:8.42,pR:.022, pL:.027,fm:null},
+  },
+  hardcover_prem_color: {
+    fr:{ff:null,fl:5.27,pR:.0525,pL:.0715,fm:null},
+    us:{ff:null,fl:5.65,pR:.065, pL:.080, fm:null},
+    uk:{ff:null,fl:4.49,pR:.0435,pL:.0598,fm:null},
+    ca:{ff:null,fl:6.77,pR:.085, pL:.10,  fm:null},
+    au:{ff:null,fl:8.42,pR:.085, pL:.100, fm:null},
+  },
+};
+var SYM  = {fr:'€',us:'$',uk:'£',ca:'CA$',au:'A$'};
+var MKTL = {fr:'Amazon.fr/de/es/it',us:'Amazon.com',uk:'Amazon.co.uk',ca:'Amazon.ca',au:'Amazon.com.au'};
+var INKL = {black:'N&B',std_color:'Couleur std',prem_color:'Couleur premium'};
+
+function getPrintCost(fmt, ink, mkt, trim, pages) {
+  var t = KDP[fmt+'_'+ink]; if (!t) return null;
+  var m = t[mkt]; if (!m) return null;
+  var pp = trim==='large' ? m.pL : m.pR;
+  if (m.fm && pages <= m.fm) return m.ff !== null ? m.ff : m.fl;
+  return m.fl + pages * pp;
+}
+
+function onFormatChange() {
+  var fmt = document.getElementById('r_format').value;
+  var isPrint = fmt === 'paperback' || fmt === 'hardcover';
+  document.getElementById('printing_params').style.display = isPrint ? 'block' : 'none';
+  var inkSel = document.getElementById('r_ink');
+  Array.from(inkSel.options).forEach(function(o){
+    o.disabled = fmt==='hardcover' && o.value==='std_color';
+  });
+  if (fmt==='hardcover' && inkSel.value==='std_color') inkSel.value = 'black';
+  calcRoyalties();
+}
+function onInkChange() { calcRoyalties(); }
+
+function syncPrice(src) {
+  if (src === 'range') {
+    var v = parseFloat(document.getElementById('r_price_range').value);
+    document.getElementById('r_price').value = v;
+    document.getElementById('r_price_display').textContent = v.toFixed(2).replace('.',',');
+  } else {
+    var v = parseFloat(document.getElementById('r_price').value) || 0;
+    document.getElementById('r_price_range').value = v;
+    document.getElementById('r_price_display').textContent = v.toFixed(2).replace('.',',');
+  }
+  calcRoyalties();
+}
+
+function calcRoyalties() {
+  var fmt   = document.getElementById('r_format').value;
+  var mkt   = document.getElementById('r_market').value;
+  var price = parseFloat(document.getElementById('r_price').value) || 0;
+  var sales = parseInt(document.getElementById('r_sales').value) || 0;
+  var ink   = document.getElementById('r_ink').value;
+  var trim  = document.getElementById('r_trim').value;
+  var pages = parseInt(document.getElementById('r_pages').value) || 150;
+  var sym   = SYM[mkt];
+  var isPrint = fmt==='paperback'||fmt==='hardcover';
+  var f = function(n){ return sym + n.toFixed(2); };
+
+  var cost = 0, formula = '';
+  if (isPrint) {
+    var c = getPrintCost(fmt, ink, mkt, trim, pages);
+    if (c === null) {
+      document.getElementById('r_info_note').textContent = 'Combinaison encre/marché non disponible.';
+      document.getElementById('r_per_unit').textContent = 'N/A';
+      document.getElementById('r_monthly').textContent = '';
+      return;
+    }
+    cost = c;
+    var m_  = KDP[fmt+'_'+ink][mkt];
+    var pp  = trim==='large' ? m_.pL : m_.pR;
+    formula = m_.fm && pages<=m_.fm
+      ? 'Forfait ≤'+m_.fm+'p'
+      : m_.fl.toFixed(2)+' + '+pages+'×'+pp.toFixed(4);
+  }
+
+  var rate = .60, rateL = '60%';
+  if (!isPrint) {
+    if (fmt==='ebook') { rate=(price>=2.99&&price<=9.99)?.70:.35; rateL=rate===.70?'70%':'35%'; }
+    else { rate=.35; rateL='35%'; }
+  }
+
+  var gross  = price * rate;
+  var net    = Math.max(0, gross - cost);
+  var mGross = price * sales;
+  var mNet   = net * sales;
+  var annual = mNet * 12;
+  var minP   = isPrint ? (cost/rate).toFixed(2) : null;
+
+  document.getElementById('r_per_unit').textContent     = f(net);
+  document.getElementById('r_monthly').textContent      = f(mNet)+' / mois · '+sales+' ventes';
+  document.getElementById('r_cost_disp2').textContent   = isPrint ? f(cost) : 'N/A';
+  document.getElementById('r_rate_disp2').textContent   = rateL;
+  document.getElementById('r_monthly_net2').textContent = f(mNet);
+  document.getElementById('r_annual2').textContent      = f(annual);
+  document.getElementById('r_min_price').textContent    = minP ? sym+minP : 'N/A';
+
+  document.getElementById('r_info_note').textContent = isPrint
+    ? MKTL[mkt]+' — '+INKL[ink]+', '+(trim==='large'?'grand format':'format standard')+', '+pages+' pages. Prix minimum : '+sym+minP+'. Formule : '+formula+' = '+sym+cost.toFixed(2)+'.'
+    : (fmt==='ebook' ? 'Taux 70% entre 2,99 et 9,99 '+sym+'. En dehors de cette plage, le taux tombe à 35%.' : 'Taux fixe 35% — aucune contrainte de prix.');
+}
+
+/* ─────────────────────────────────────────────────────────
+   FISCAL
+───────────────────────────────────────────────────────── */
+var BAREME = [
+  {max:11294,rate:0},{max:28797,rate:.11},
+  {max:82341,rate:.30},{max:177106,rate:.41},{max:Infinity,rate:.45}
+];
+function calcIR(rev, parts) {
+  var q=rev/parts, t=0, p=0;
+  for (var i=0; i<BAREME.length; i++) {
+    var b = BAREME[i];
+    if (q <= p) break;
+    t += (Math.min(q, b.max) - p) * b.rate;
+    p = b.max;
+  }
+  return t * parts;
+}
+function calcFiscal() {
+  var ca    = parseFloat(document.getElementById('f_ca').value)||0;
+  var sal   = parseFloat(document.getElementById('f_salaire').value)||0;
+  var parts = parseFloat(document.getElementById('f_parts').value)||2;
+  var vlOn  = document.getElementById('f_vl_active').value==='yes';
+
+  var abat     = ca*.34, bncImp=ca*.66, urssaf=ca*.212, salImp=sal*.9;
+  var fe = function(n){ return n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f')+' €'; };
+
+  document.getElementById('f_ca_disp').textContent       = fe(ca);
+  document.getElementById('f_abat').textContent          = fe(abat);
+  document.getElementById('f_bnc_imposable').textContent = fe(bncImp);
+  document.getElementById('f_urssaf').textContent        = fe(urssaf);
+
+  var ir1  = calcIR(salImp+bncImp, parts);
+  var ir1s = calcIR(salImp, parts);
+  var ir1d = ir1 - ir1s;
+  var vl   = ca*.022, ir2=calcIR(salImp, parts);
+  var ch1  = urssaf+ir1d, ch2=urssaf+vl;
+  var n1   = ca-ch1, n2=ca-ch2;
+  var best = n1>=n2 ? 'bareme' : 'liberatoire';
+
+  document.getElementById('fiscal_compare').innerHTML =
+    '<div class="fiscal-card">' +
+      '<div class="fiscal-card-header">' +
+        '<div class="fiscal-card-title">Barème progressif</div>' +
+        (best==='bareme' ? '<span class="pill pill-green">Recommandé</span>' : '') +
+      '</div>' +
+      '<div class="fiscal-line"><span>IR sur salaire seul</span><strong>'+fe(ir1s)+'</strong></div>' +
+      '<div class="fiscal-line"><span>Surcroît IR (KDP)</span><strong>'+fe(ir1d)+'</strong></div>' +
+      '<div class="fiscal-line"><span>Cotisations URSSAF</span><strong>'+fe(urssaf)+'</strong></div>' +
+      '<div class="fiscal-line"><span>Total charges KDP</span><strong>'+fe(ch1)+'</strong></div>' +
+      '<div class="fiscal-line net"><span>Net KDP conservé</span><strong>'+fe(n1)+'</strong></div>' +
+    '</div>' +
+    '<div class="fiscal-card">' +
+      '<div class="fiscal-card-header">' +
+        '<div class="fiscal-card-title">Versement libératoire</div>' +
+        (best==='liberatoire' ? '<span class="pill pill-green">Recommandé</span>' : '') +
+      '</div>' +
+      '<div class="fiscal-line"><span>VL IR (2,2% du CA)</span><strong>'+fe(vl)+'</strong></div>' +
+      '<div class="fiscal-line"><span>IR salaire (inchangé)</span><strong>'+fe(ir2)+'</strong></div>' +
+      '<div class="fiscal-line"><span>Cotisations URSSAF</span><strong>'+fe(urssaf)+'</strong></div>' +
+      '<div class="fiscal-line"><span>Total charges KDP</span><strong>'+fe(ch2)+'</strong></div>' +
+      '<div class="fiscal-line net"><span>Net KDP conservé</span><strong>'+fe(n2)+'</strong></div>' +
+    '</div>';
+
+  var diff = Math.abs(n1-n2).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f');
+  var reco = best==='bareme'
+    ? 'Barème recommandé — vous conservez '+diff+' € de plus. Votre tranche marginale sur le BNC est inférieure à 2,2%.'
+    : 'Versement libératoire recommandé — vous conservez '+diff+' € de plus. À demander avant le 31 décembre pour l\'année suivante.';
+  if (vlOn && best==='bareme') reco += ' Attention : le VL est actif — pensez à le désactiver à votre prochaine déclaration URSSAF.';
+  var recoBanner = document.getElementById('fiscal_recommendation');
+  recoBanner.textContent = reco;
+  recoBanner.className = 'info-banner ' + (best==='bareme' ? 'blue' : 'green');
+}
+
+/* ─────────────────────────────────────────────────────────
+   STORAGE — wrapper sécurisé (evite les erreurs file://)
+───────────────────────────────────────────────────────── */
+var _store = {};  // fallback mémoire si localStorage indisponible
+
+function storeGet(key) {
+  try { return localStorage.getItem(key); } catch(e) { return _store[key] || null; }
+}
+function storeSet(key, val) {
+  try { localStorage.setItem(key, val); } catch(e) { _store[key] = val; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   CATALOGUE
+───────────────────────────────────────────────────────── */
+var books = [];
+try {
+  books = JSON.parse(storeGet('jte_books') || '[]');
+} catch(e) { books = []; }
+
+if (!books.length) {
+  books = [
+    {id:1,title:'Raconte-moi ta vie, Mamie',              serie:'Seniors / Mémoires',format:'Paperback',price:12.99,royalty:3.50,asin:'',status:'Proof commandé',sales:15},
+    {id:2,title:'Raconte-moi ta vie, Papy',               serie:'Seniors / Mémoires',format:'Paperback',price:12.99,royalty:3.50,asin:'',status:'Proof commandé',sales:12},
+    {id:3,title:'Mots cachés Seniors — Grands caractères', serie:'Seniors / Puzzles', format:'Paperback',price:9.99, royalty:2.80,asin:'',status:'En cours',      sales:0 },
+  ];
+  storeSet('jte_books', JSON.stringify(books));
+}
+
+var STATUS_TAG = {
+  'Publié':         'green',
+  'Proof commandé': 'blue',
+  'En cours':       'orange',
+  'Suspendu':       'red',
+};
+
+function renderCatalogue() {
+  var list  = document.getElementById('book_list');
+  var empty = document.getElementById('empty_state');
+  if (!books.length) { list.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = books.map(function(b) {
+    return '<div class="book-card">' +
+      '<div class="book-card-body">' +
+        '<div class="book-card-title">'+b.title+'</div>' +
+        '<div class="book-card-serie">'+b.serie+'</div>' +
+        '<div class="book-meta-row">' +
+          '<span class="tag '+(STATUS_TAG[b.status]||'orange')+'">'+b.status+'</span>' +
+          '<span class="tag">'+b.format+'</span>' +
+          '<span class="tag">'+b.price.toFixed(2)+' €</span>' +
+          '<span class="tag">'+b.royalty.toFixed(2)+' €/u</span>' +
+          '<span class="tag green">'+(b.royalty*b.sales).toFixed(2)+' €/mois</span>' +
+          (b.asin ? '<span class="tag">'+b.asin+'</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="book-card-footer">' +
+        '<button class="btn btn-fill btn-sm" onclick="editBook('+b.id+')">Modifier</button>' +
+        '<button class="btn btn-red btn-sm" onclick="deleteBook('+b.id+')">Supprimer</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  var total = books.length;
+  var live  = books.filter(function(b){ return b.status==='Publié'; }).length;
+  var roy   = books.reduce(function(s,b){ return s+b.royalty*b.sales; }, 0);
+  document.getElementById('cat_total').textContent     = total;
+  document.getElementById('cat_live').textContent      = live;
+  document.getElementById('cat_royalties').textContent = roy.toFixed(0)+' €';
+  document.getElementById('cat_annual').textContent    = (roy*12).toFixed(0)+' €';
+}
+
+var editingId = null;
+function openModal(id) {
+  id = id || null;
+  editingId = id;
+  document.getElementById('modal_title').textContent = id ? 'Modifier le titre' : 'Nouveau titre';
+  if (id) {
+    var b = books.find(function(x){ return x.id===id; });
+    document.getElementById('m_title').value   = b.title;
+    document.getElementById('m_serie').value   = b.serie;
+    document.getElementById('m_format').value  = b.format;
+    document.getElementById('m_price').value   = b.price;
+    document.getElementById('m_royalty').value = b.royalty;
+    document.getElementById('m_asin').value    = b.asin;
+    document.getElementById('m_status').value  = b.status;
+    document.getElementById('m_sales').value   = b.sales;
+  } else {
+    ['m_title','m_serie','m_asin'].forEach(function(i){ document.getElementById(i).value=''; });
+    document.getElementById('m_format').value  = 'Paperback';
+    document.getElementById('m_price').value   = '12.99';
+    document.getElementById('m_royalty').value = '3.50';
+    document.getElementById('m_status').value  = 'En cours';
+    document.getElementById('m_sales').value   = '10';
+  }
+  document.getElementById('book_modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('book_modal').classList.remove('open');
+  document.body.style.overflow = '';
+  editingId = null;
+}
+function saveBook() {
+  var b = {
+    id:      editingId || Date.now(),
+    title:   document.getElementById('m_title').value.trim() || 'Sans titre',
+    serie:   document.getElementById('m_serie').value.trim(),
+    format:  document.getElementById('m_format').value,
+    price:   parseFloat(document.getElementById('m_price').value) || 0,
+    royalty: parseFloat(document.getElementById('m_royalty').value) || 0,
+    asin:    document.getElementById('m_asin').value.trim(),
+    status:  document.getElementById('m_status').value,
+    sales:   parseInt(document.getElementById('m_sales').value) || 0,
+  };
+  books = editingId
+    ? books.map(function(x){ return x.id===editingId ? b : x; })
+    : books.concat([b]);
+  storeSet('jte_books', JSON.stringify(books));
+  closeModal();
+  renderCatalogue();
+}
+function editBook(id)   { openModal(id); }
+function deleteBook(id) {
+  if (confirm('Supprimer ce titre ?')) {
+    books = books.filter(function(b){ return b.id!==id; });
+    storeSet('jte_books', JSON.stringify(books));
+    renderCatalogue();
+  }
+}
+document.getElementById('book_modal').addEventListener('click', function(e) {
+  if (e.target === document.getElementById('book_modal')) closeModal();
+});
+
+// ─── Init ─────────────────────────────────────────────────
+onFormatChange();
+calcFiscal();
+renderCatalogue();
+</script>
+</body>
+</html>
